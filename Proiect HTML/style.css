@@ -1,0 +1,81 @@
+body {
+    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+    color: white;
+    font-size: 38px;
+    overflow-y: hidden;
+}
+
+.topnav {
+    list-style: none;
+    text-align: right;
+}
+
+li {
+    display: inline-block;
+    padding-right: 7%;
+    font-size:45px;
+}
+
+.Logo{
+    float:left;
+}
+
+a:link,
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00A0C6;
+    text-decoration: none;
+    cursor: pointer;
+} 
+
+@keyframes anim_Title{
+    from {opacity:0}
+    to {opacity:1}
+}
+
+.Title {
+    text-align: center;
+    padding: 8%;
+    font-size: 62px;
+    animation-name: anim_Title;
+    animation-duration: 3s;
+}
+
+.mybutton {
+    font-family: 'Roboto';
+    font-size: 24px;
+    color: #151D21;
+    background: #ff7a7a;
+    display: inline-flex;
+    padding: 6px;
+    margin-top: 30px;
+    margin-right: 5%;
+    margin-left: 5%;
+    border: none;
+    border-radius: 5px;
+}
+
+.mybutton:hover {
+    background: white;
+    font-size: 26px;
+    margin-top: 29px;
+}
+
+.Games {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    top: -90px;
+    text-align: center;
+    animation-name: anim_Title;
+    animation-duration: 3s;
+}
+
+figure img:hover {
+    filter: brightness(0.7);
+}
