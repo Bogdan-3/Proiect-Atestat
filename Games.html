@@ -1,17 +1,20 @@
+<!DOCTYPE html>
 <html>
+
 <head>
     <title>Bogdan</title>
     <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
     <header>
         <nav>
             <ul class="topnav">
                 <li class="logo">
-                    <a href="index.html"><img src="Media/Logo.png" /></a>
+                    <img src="Media/Logo.png" />
                 </li>
                 <li>
-                    <a href="home.html">Home</a>
+                    <a href="index.html">Home</a>
                 </li>
                 <li>
                     <a href="Games.html">Games</a>
@@ -33,35 +36,24 @@
             </a>
             <figcaption>
                 <a href="https://github.com/Bogdan-3/CTRL-ALT-DEL">
-                    CTRL ALT DEL
+                    CTRL ALT DEL (WIP)
                 </a>
             </figcaption>
         </figure>
 
         <figure>
-            <a href="https://github.com/Bogdan-3/Calculator-App">
-                <img src="Media/calculator.png" width="200" height="200" />
+            <a href="#" onclick='openGame("Calculator_Web")'>
+                <img src=" Media/calculator.png" width="200" height="200" />
             </a>
             <figcaption>
-                <a href="https://github.com/Bogdan-3/Calculator-App">
-                    Siple Calculator
+                <a href="#" onclick='openGame("Calculator_Web")'>
+                    Simple Calculator
                 </a>
             </figcaption>
         </figure>
 
         <figure>
-            <a href="https://apkpure.com/sorting-time/com.DefaultCompany.SortingTime">
-                <img src="Media/Soting.png" width="200" height="200" />
-            </a>
-            <figcaption>
-                <a href="https://apkpure.com/sorting-time/com.DefaultCompany.SortingTime">
-                    Sorting Time
-                </a>
-            </figcaption>
-        </figure>
-
-        <figure>
-            <a href="https://github.com/Bogdan-3/Color-Combo">
+            <a href=" https://github.com/Bogdan-3/Color-Combo">
                 <img src="Media/Color Combo.png" width="200" height="200" />
             </a>
             <figcaption>
@@ -94,6 +86,59 @@
         </figure>
 
     </div>
+    <div class="Title">
+        <a href="Honorable_Mention.html">Honorable Mention</a>
+    </div>
 
+
+    <!-- Modal Background -->
+    <div id="gameModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+
+            <!-- Unity Container -->
+            <div id="unity-container" style="width: 540px; height: 960px;">
+                <canvas id="unity-canvas" width="540" height="960"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let unityInstance = null;
+
+        function openGame(gameFolder, productName) {
+            document.getElementById("gameModal").style.display = "flex";
+
+            if (unityInstance) return;
+
+            // Dynamically load the loader script
+            const script = document.createElement("script");
+            script.src = `${gameFolder}/Build/${gameFolder}.loader.js`;
+
+            script.onload = () => {
+                createUnityInstance(document.querySelector("#unity-canvas"), {
+                    dataUrl: `${gameFolder}/Build/${gameFolder}.data.unityweb`,
+                    frameworkUrl: `${gameFolder}/Build/${gameFolder}.framework.js.unityweb`,
+                    codeUrl: `${gameFolder}/Build/${gameFolder}.wasm.unityweb`,
+                    streamingAssetsUrl: `${gameFolder}/StreamingAssets`,
+                    companyName: "Bogdan",
+                    productName: productName,
+                    productVersion: "1.0"
+                }).then(instance => {
+                    unityInstance = instance;
+                }).catch(err => {
+                    console.error(err);
+                    alert("Failed to load Unity game. Make sure you are running via a local server.");
+                });
+            };
+
+            document.body.appendChild(script);
+        }
+
+        document.getElementById("closeModal").onclick = function () {
+            document.getElementById("gameModal").style.display = "none";
+        }
+    </script>
 </body>
+
 </html>
