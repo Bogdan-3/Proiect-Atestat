@@ -31,11 +31,11 @@
     <div class="Games">
 
         <figure>
-            <a href="https://github.com/Bogdan-3/CTRL-ALT-DEL">
+            <a href="#" onclick='openGame("CTRL_ALT_DEL_web")'>
                 <img src="Media/CTRL_ALT_DEL.jpg" width="200" height="200" />
             </a>
             <figcaption>
-                <a href="https://github.com/Bogdan-3/CTRL-ALT-DEL">
+                <a href="#" onclick='openGame("CTRL_ALT_DEL_web")'>
                     CTRL ALT DEL (WIP)
                 </a>
             </figcaption>
@@ -53,33 +53,22 @@
         </figure>
 
         <figure>
-            <a href=" https://github.com/Bogdan-3/Color-Combo">
-                <img src="Media/Color Combo.png" width="200" height="200" />
-            </a>
-            <figcaption>
-                <a href="https://github.com/Bogdan-3/Color-Combo">
-                    Color Combo
-                </a>
-            </figcaption>
-        </figure>
-
-        <figure>
-            <a href="https://github.com/Bogdan-3/Tic-Tac-Toe">
+            <a href="#" onclick='openGame("Tic_Tac_Toe_web")'>
                 <img src="Media/XO.png" width="200" height="200" />
             </a>
             <figcaption>
-                <a href="https://github.com/Bogdan-3/Tic-Tac-Toe">
+                <a href="#" onclick='openGame("Tic_Tac_Toe_web")'>
                     Tic Tac Toe
                 </a>
             </figcaption>
         </figure>
 
         <figure>
-            <a href="https://github.com/Bogdan-3/Europe-Trivia-Game">
+            <a href="#" onclick='openGame("Europe_Trivia_web")'>
                 <img src="Media/Europe.png" width="200" height="200" />
             </a>
             <figcaption>
-                <a href="https://github.com/Bogdan-3/Europe-Trivia-Game">
+                <a href="#" onclick='openGame("Europe_Trivia_web")'>
                     Europe Trivia Game
                 </a>
             </figcaption>
@@ -91,30 +80,64 @@
     </div>
 
 
-    <!-- Modal Background -->
+    <!-- Modal -->
     <div id="gameModal" class="modal" style="display:none;">
         <div class="modal-content">
             <span id="closeModal" class="close">&times;</span>
 
             <!-- Unity Container -->
-            <div id="unity-container" style="width: 405px; height: 720px;">
+            <div id="unity-container" style="width:405px; height:720px;">
                 <canvas id="unity-canvas" width="405" height="720"></canvas>
             </div>
+
         </div>
     </div>
 
     <script>
+        // --- Unity setup ---
         let unityInstance = null;
+        let currentGameFolder = null;
 
-        function openGame(gameFolder, productName) {
+        const gameResolutions = {
+            "Calculator_Web": { width: 405, height: 720 },
+            "Tic_Tac_Toe_web": { width: 600, height: 750 },
+            "Europe_Trivia_web": { width: 1200, height: 600 },
+            "CTRL_ALT_DEL_web": { width: 1600, height: 900 }
+        };
+
+        function setGameResolution(gameFolder) {
+            const res = gameResolutions[gameFolder];
+            if (!res) return;
+            const container = document.getElementById("unity-container");
+            const canvas = document.getElementById("unity-canvas");
+            container.style.width = res.width + "px";
+            container.style.height = res.height + "px";
+            canvas.width = res.width;
+            canvas.height = res.height;
+        }
+
+        function openGame(gameFolder) {
+            document.getElementById("unity-container").style.display = "block";
             document.getElementById("gameModal").style.display = "flex";
 
-            if (unityInstance) return;
+            const canvas = document.getElementById("unity-canvas");
+            canvas.tabIndex = 0;
+            canvas.focus();
 
-            // Dynamically load the loader script
+            setGameResolution(gameFolder);
+
+            if (unityInstance && currentGameFolder === gameFolder) return;
+            if (unityInstance) {
+                unityInstance.Quit().then(() => { unityInstance = null; loadUnityGame(gameFolder); });
+            } else { loadUnityGame(gameFolder); }
+        }
+
+        function loadUnityGame(gameFolder) {
+            currentGameFolder = gameFolder;
+            document.querySelectorAll("script[data-unity-loader]").forEach(el => el.remove());
             const script = document.createElement("script");
             script.src = `${gameFolder}/Build/${gameFolder}.loader.js`;
-
+            script.setAttribute("data-unity-loader", "true");
             script.onload = () => {
                 createUnityInstance(document.querySelector("#unity-canvas"), {
                     dataUrl: `${gameFolder}/Build/${gameFolder}.data.unityweb`,
@@ -122,23 +145,23 @@
                     codeUrl: `${gameFolder}/Build/${gameFolder}.wasm.unityweb`,
                     streamingAssetsUrl: `${gameFolder}/StreamingAssets`,
                     companyName: "Bogdan",
-                    productName: productName,
+                    productName: gameFolder,
                     productVersion: "1.0"
-                }).then(instance => {
-                    unityInstance = instance;
-                }).catch(err => {
-                    console.error(err);
-                    alert("Failed to load Unity game. Make sure you are running via a local server.");
-                });
+                }).then(instance => { unityInstance = instance; })
+                    .catch(err => { console.error(err); alert("Failed to load Unity WebGL game."); });
             };
-
             document.body.appendChild(script);
         }
 
+        // --- Close Modal ---
         document.getElementById("closeModal").onclick = function () {
             document.getElementById("gameModal").style.display = "none";
-        }
+            if (unityInstance) {
+                unityInstance.Quit().then(() => { unityInstance = null; currentGameFolder = null; });
+            }
+        };
     </script>
+
 </body>
 
 </html>
