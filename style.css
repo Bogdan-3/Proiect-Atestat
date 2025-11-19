@@ -69,7 +69,7 @@ a:hover {
     justify-content: center;   /* centers all game items */
     align-items: center;       /* vertically align items */
     flex-wrap: wrap;           /* makes it responsive */
-    gap: 80px;                 /* spacing between games */
+    gap: 50px;                 /* spacing between games */
     
     text-align: center;
     animation-name: anim_Title;
