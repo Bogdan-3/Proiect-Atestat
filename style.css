@@ -106,3 +106,26 @@ figure img:hover {
     color: white;
 }
 
+
+.Scoala{
+    font-size:45px;
+    font-weight:bold;
+    font-style:italic;
+}
+
+.Tema{
+    font-size:40px;
+}
+
+.Nume{
+    font-size:35px;
+    font-weight:bold;
+}
+
+.Clasa{
+    font-size:30px;
+}
+
+.Profesor{
+    font-size:35px;
+}
