@@ -69,8 +69,6 @@ a:hover {
     justify-content: center;   /* centers all game items */
     align-items: center;       /* vertically align items */
     flex-wrap: wrap;           /* makes it responsive */
-    gap: 50px;                 /* spacing between games */
-    
     text-align: center;
     animation-name: anim_Title;
     animation-duration: 3s;
@@ -129,3 +127,17 @@ figure img:hover {
 .Profesor{
     font-size:35px;
 }
+
+.description {
+    visibility: hidden; /* Hidden by default */
+    background-color: #ff7a7a;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* Show the tooltip text on hover */
+.thing:hover .description {
+    visibility: visible;
+}
+
