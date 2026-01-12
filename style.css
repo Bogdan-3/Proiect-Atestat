@@ -106,9 +106,7 @@ figure img:hover {
 
 
 .Scoala{
-    font-size:45px;
-    font-weight:bold;
-    font-style:italic;
+    font-size:30px;
 }
 
 .Tema{
@@ -126,6 +124,12 @@ figure img:hover {
 
 .Profesor{
     font-size:35px;
+}
+
+.Swag {
+    font-size: 45px;
+    font-weight: bold;
+    font-style: italic;
 }
 
 .description {
